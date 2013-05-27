@@ -24,8 +24,9 @@
         <link href='http://fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css'>
         {% block css %}
 
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css">
+        <!--<link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css">-->
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/custom.css">
 
         {% endblock %}
@@ -47,15 +48,31 @@
                 </header>
 
                 {% block header %}
-                  <div class="navi clearfix">
-                        <ul>
-                            {% for item in menu_items %}
-                            <li><a href="{{ item.url }}"><small>{{ item.title }}</small></a></li>
-                            {% endfor %}
-                        </ul>
-                  </div>
+                    <ul class="nav nav-pills navi">
+                        {% for item in menu_items %}
+                            <li {% if item.only_mainmenu %}class="dropdown"{% endif %}>
+                                <a {% if item.only_mainmenu %} class="dropdown-toggle" data-toggle="dropdown"{% endif %} href="{% if item.only_mainmenu %}{% else %}{{ item.get_absolute_url }}{% endif %}">
+                                    <small>{{ item.title|upper }}</small>
+                                    {% if item.only_mainmenu %}<b class="caret"></b>{% endif %}
+                                </a>
+                                {% if item.only_mainmenu %}
+                                    <ul class="dropdown-menu">
+                                    {% for key, submenus in submenus.items %}
+                                        {% if key == item.title %}
+                                        {% for sub in submenus %}
+                                        <li>
+                                            <a href="{{ sub.get_absolute_url }}">{{ sub.title }}</a>
+                                        </li>
+                                        {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
                 {% endblock %}
-                
+
 
                 <div id="main" role="main" class="clearfix">
                     <div id="content">
@@ -68,18 +85,18 @@
                 {% block footer %}
                 <footer>
                     <p class="footer_copy">
-                       <small>&#169;2012 <strong>UNIT A</strong> Contemporary Art Space<br/></small>
-			<a href="http://www.facebook.com/unitaspace" target="_blank"><img src="http://unitaspace.com/static/facebook.jpg"/>&nbsp;<small>UNIT A on Facebook</small></a>
-<br/><br/>
+                        <small>&#169;2012 <strong>UNIT A</strong> Contemporary Art Space<br/></small>
+                        <a href="http://www.facebook.com/unitaspace" target="_blank"><img src="http://unitaspace.com/static/facebook.jpg"/>&nbsp;<small>UNIT A on Facebook</small></a>
+                        <br/><br/>
 
-                        <small>                                                                                                                                                                       
-                    {% if not user.is_authenticated %}                                                                                                                                                                      
-                    	<a href="{% url login %}"> Collectors Access </a>                                                                                                                                                              
-                    {% else %}                                                                                                                                                                                              
+                        <small>
+                    {% if not user.is_authenticated %}
+                        <a href="{% url login %}"> Collectors Access </a>
+                    {% else %}
                     {{ user }},<a href="{% url logout %}"> log out </a>
                     {% endif %}
-			</small>                                                                                                                                                                                             
-                    </p>  
+            </small>
+                    </p>
                 </footer>
                 {% endblock %}
             </div>
@@ -88,6 +105,7 @@
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/vendor/jquery-1.8.0.min.js"><\/script>')</script>
+        <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
         <script src="{{ STATIC_URL }}js/plugins.js"></script>
         <script src="{{ STATIC_URL }}js/main.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.backstretch.min.js"></script>

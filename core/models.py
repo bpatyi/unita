@@ -5,16 +5,38 @@ from django.contrib.flatpages.models import FlatPage
 class MenuItem(models.Model):
     order = models.IntegerField()
     title = models.CharField(max_length=50)
-    url = models.CharField(('URL'),max_length=100,db_index=True)
+    url = models.CharField('URL',max_length=100,db_index=True, blank=True, default='')
+    flatpage = models.ForeignKey(FlatPage, blank=True, default='', null=True)
+    only_mainmenu = models.BooleanField(verbose_name='Only Main Menu', default=False, blank=True, help_text="Check, if this menu have submenus.")
 
     class Meta:
         ordering=('order',)
 
     def __unicode__(self):
-        return u"%s -- %s" % (self.url, self.title)
+        return u"%s -- %s" % (self.title, self.url)
 
     def get_absolute_url(self):
-        return self.url
+        if self.url:
+            return self.url
+        elif self.flatpage:
+            return self.flatpage.url
+
+
+class SubMenu(models.Model):
+    menu = models.ForeignKey(MenuItem)
+    title = models.CharField(max_length=50)
+    url = models.CharField('URL',max_length=100,db_index=True, blank=True, default='')
+    flatpage = models.ForeignKey(FlatPage, blank=True, default='', null=True)
+
+    def __unicode__(self):
+        return u"%s -- %s" % (self.title, self.url)
+
+    def get_absolute_url(self):
+        if self.url:
+            return self.url
+        elif self.flatpage:
+            return self.flatpage.url
+
 
 class Message(models.Model):
     read = models.BooleanField(default=False)
