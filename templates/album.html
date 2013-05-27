@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title> UNIT A - {{ album.name }} </title>
+{% endblock %}
+
+{% block left %}
+
+{% load thumbnail %}
+
+	{% for img in images %}
+		<div class="albums">
+            <div class="item">
+				<a href="{{ img.slug }}">
+                	<p><em>{{ img.name }}</em></p>
+                    <img src="{{MEDIA_URL}}{{ img.photo.medium }}"/>	
+            	</a>
+            </div>
+		</div>
+	{% endfor %}
+	
+{% endblock %}

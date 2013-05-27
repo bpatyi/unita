@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title> UNIT A - {{ image.name }} </title>
+{% endblock %}
+
+{% block left %}
+
+	<div class="image">
+		<em>{{image.name}}</em><br/>
+		<a href="{% url image image.collection.slug next.slug %}"><img src="{{MEDIA_URL}}{{image.photo}}" style="max-width:960px; max-height:600px;"/></a>
+	<small>{{ image.description|safe}}</small><br/>
+	</div>
+
+	<div class="pager">
+		<ul>
+			<li><a href="{% url collection %}{{ image.collection.slug }}/">back</a></li>
+			<li>&nbsp;</li>	
+			<li><a href="{% url image image.collection.slug prev.slug %}">previous</a></li>
+			<li><a href="{% url image image.collection.slug next.slug %}">next</a></li>
+		</ul>
+	</div>
+
+{% endblock %}

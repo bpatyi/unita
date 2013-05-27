@@ -1,7 +1,6 @@
-*.py[cod]
-
-# C extensions
-*.so
+*.py[co]
+*.tmp
+*.swp
 
 # Packages
 *.egg
@@ -15,21 +14,27 @@ var
 sdist
 develop-eggs
 .installed.cfg
-lib
-lib64
-
+settings_local.py
+local.py
+static_deployment/
 # Installer logs
 pip-log.txt
 
 # Unit test / coverage reports
 .coverage
 .tox
-nosetests.xml
 
-# Translations
-*.mo
+#Translations
+#*.mo
 
-# Mr Developer
+#Mr Developer
 .mr.developer.cfg
-.project
-.pydevproject
+
+# Mac
+.DS_Store
+
+# dev db
+db
+
+#ignore south migrations folder
+migrations/

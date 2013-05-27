@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title> UNIT A - Collection </title>
+{% endblock%}
+
+{% block left %}
+
+	{% load thumbnail %}
+
+	{% for collection, randomimage in collections.items %}
+		<div class="albums">
+            <div class="item">
+				<a href="{{ collection.slug }}">
+                	<p><em>{{ collection.name }}</em></p>
+                    <img src="{{MEDIA_URL}}{{randomimage.0.photo.medium }}"/>	
+            	</a>
+            </div>
+		</div>
+	{% endfor %}
+
+
+{% endblock %}

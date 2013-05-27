@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}<title>UNIT A - Patrons</title>{% endblock %}
+
+{% block left %}
+
+<form action="{% url patrons %}" method="POST" class="patron_form">{% csrf_token %}	
+	<h2 style="color:#222; margin:0 0 40px 0;"> Please, enter your details: </h2>
+	 	{{ patron_form.non_field_errors }}
+		<p>
+			{{ patron_form.first_name.label }}
+			{{ patron_form.first_name}}
+		</p>
+		<p>
+			{{ patron_form.last_name.label }}
+			{{ patron_form.last_name}}
+		</p>
+		<p>
+			{{ patron_form.payer_business_name.label }}
+			{{ patron_form.payer_business_name}}
+		</p>
+		<p>
+			{{ patron_form.payer_email.label }}
+			{{ patron_form.payer_email}}
+		</p>
+		<p>
+			{{ patron_form.contact_phone.label }}
+			{{ patron_form.contact_phone}}
+		</p>	
+		<p>
+			{{ patron_form.address_country.label }}
+			{{ patron_form.address_country}}
+		</p>
+		<p>
+			{{ patron_form.address_zip.label }}
+			{{ patron_form.address_zip}}
+		</p>
+		<p>
+			{{ patron_form.address_city.label }}
+			{{ patron_form.address_city}}
+		</p>
+		<p>
+			{{ patron_form.address_street.label }}
+			{{ patron_form.address_street}}
+		</p>
+		<input id="save" value="Save" type="submit"/>
+</form> 
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="paypal_form">
+	<h2 style="color:#222;"> Please select patron plan: </h2>
+	{{ flatpage.content|safe }}
+
+	<input name="cmd" type="hidden" value="_donations" />
+	<input name="business" type="hidden" value="unitaspaceinfo@gmail.com" /> 
+	<input name="lc" type="hidden" value="US" /> <input name="item_name" type="hidden" value="UNIT A - Contemporary Art Space" /> 
+	<input name="no_note" type="hidden" value="0" /> 
+	<input name="currency_code" type="hidden" value="USD" /> 
+	<input name="bn" type="hidden" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest" /> 
+	<input type="submit"  alt="SUPPORT UNIT A - Donations Are Welcome via PayPal - The safer, easier way to pay online!" border="0" name="submit" src="http://www.unitaspace.com/static/img/unita_donations.gif" type="image" value="Become a Patron" class="bocome"/> 
+	<img alt="" border="0" height="1" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" />
+</form>
+{% endblock %}
+
+{% block extra_script %}
+{{ block.super }}
+
+/*
+	$('#save').live('click', function(event){
+		event.preventDefault();
+
+		form = $('.patron_form')
+
+		form.ajaxForm({
+		        success: function(response, s, xhr) {
+		          	if (response.success) {
+		        		$('.patron_form').hide()
+		        		$('.paypal_form').show()
+		        		console.log('success')
+		        	}
+		      }
+		})
+		
+		form.submit()	
+
+});*/
+  
+{% endblock %}

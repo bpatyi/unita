@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}<title>UNIT A - Contact</title>{% endblock %}
+{% block left %}
+	{% load flatpages %}
+	{% get_flatpages '/contact/' as flatpages %}
+	{% with flatpage=flatpages.0 %}
+		{{flatpage.content|safe}}
+	{% endwith %}
+
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	<form action="{% url contact %}" method="POST">{% csrf_token %}	
+
+		{{contact_form.as_p}}
+
+		<input name="Submit" type="submit" value="Send Message">
+
+	</form>
+{% endblock %}
