@@ -1,6 +1,7 @@
 *.py[co]
 *.tmp
 *.swp
+*.db
 
 # Packages
 *.egg
@@ -38,3 +39,5 @@ db
 
 #ignore south migrations folder
 migrations/
+
+settings_old.py
